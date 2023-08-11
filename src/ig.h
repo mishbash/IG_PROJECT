@@ -1,0 +1,53 @@
+#pragma once
+
+#include "function.h"
+
+#include <vector>
+#include <iostream>
+
+struct IGNode {
+    std::vector<unsigned> children;
+    std::vector<bool> negate;
+    Function func;
+
+    void connect(unsigned child, bool neg);
+
+    IGNode();
+    IGNode(std::vector<unsigned> children, std::vector<bool> negate, std::vector<bool> values);
+};
+
+class IG {
+public:
+    IG();
+    ~IG();
+
+    unsigned getVariableCount() const;
+    void setVariableCount(unsigned count);
+
+    unsigned getOutput() const;
+    void setOutput(unsigned vertex);
+    
+    bool getNegateOutput() const;
+    void setNegateOutput(bool value);
+
+    std::vector<IGNode>& getNodes();
+    const std::vector<IGNode>& getNodes() const;
+    unsigned addNode(const IGNode &node);
+    
+    bool hasCycles() const;
+
+    unsigned getComplexity() const;
+    Function getFunction() const;
+
+    void read(std::istream &istream);
+    void print(std::ostream& ostream) const;
+
+private:
+    unsigned variable_count;
+    unsigned output;
+    bool negate_output;
+    std::vector<IGNode> nodes;
+
+    bool traverse(const std::vector<bool>& x, unsigned v, std::vector<bool>& used, std::vector<bool>& used_res) const;
+};
+
