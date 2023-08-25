@@ -28,6 +28,8 @@ public:
     void setValue(const std::vector<bool> &x, bool value);
     bool getValue(const std::vector<bool> &x) const;
 
+    unsigned mincode() const;
+
     bool isZero() const;
 
     void print(std::ostream &ostream, bool next_line = true) const;
