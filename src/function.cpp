@@ -111,3 +111,11 @@ void Function::bigPrint(std::ostream &ostream) const {
     }
     ostream << std::endl;
 }
+
+unsigned Function::mincode() const {
+    unsigned result = 0;
+    for (unsigned i = 0; i < truth_table.size(); ++i) {
+        result = (result << 1) + (truth_table[i] ? 1 : 0);
+    }
+    return result;
+}
