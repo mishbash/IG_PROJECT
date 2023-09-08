@@ -18,24 +18,14 @@ void IGBruteforcer::bruteforce_outputs(const IG &ig) {
         for (unsigned j = 0; j <= 1; ++j) {
             new_ig.setOutput(i);
             new_ig.setNegateOutput(j);
-
-            // std::cout << "-------------------------------\n";
-            // std::cout << new_ig.getResult().mincode() << std::endl;
-            // std::cout << "ig" << std::endl;
-            // new_ig.print(std::cout);
-            // new_ig.getResult().print(std::cout);
-            // std::cout << "-------------------------------\n";
             
             unsigned res = new_ig.getResult().mincode();
-
-            // assert(res < function_found.size());
 
             if (!function_found[res]) {
                 function_found[res] = 1;
                 ++total_amount_function_found;
+                new_ig.MKSprint(file);
             }
-
-            new_ig.MKSprint(file);
         }
     }
 }
@@ -43,7 +33,7 @@ void IGBruteforcer::bruteforce_outputs(const IG &ig) {
 
 /*
     - pick a function, because different function can have diffrent variable count (1)
-    - pick all possible permutations, because function can be non-commutative (2)
+    - pick all possible permutations (2)
     - get all possible variants on negativity of input (3)
 */
 void IGBruteforcer::bruteforce_recursion(const IG &ig, unsigned vertices_left) {
@@ -91,10 +81,5 @@ void IGBruteforcer::bruteforce(IG ig, unsigned vertices) {
     total_amount_function_found = 0;
     bruteforce_recursion(ig, vertices);
 
-    // std::ofstream file("output.txt");
-    // file << (1 << (ig.getVariableCount() + vertices)) - total_amount_function_found << "\n";
-    // std::cout << (1 << (1 << (ig.getVariableCount()))) - total_amount_function_found << "\n";
-
-    file << (1 << (1 << ig.getVariableCount())) - total_amount_function_found << "\n";
+    file << (1 << ((1 << ig.getVariableCount()) + 1)) - total_amount_function_found - 1 << "\n";
 }
-
